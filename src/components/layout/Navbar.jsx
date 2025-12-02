@@ -7,7 +7,7 @@ export default function Navbar() {
                     md:bg-white/90 md:backdrop-blur-md 
                     scroll-bg-transparent">
 
-      <div className="px-4 sm:px-6 lg:px-8 py-4">
+      <div className="px-4 sm:px-6 lg:px-8 py-2">
 
         <div className="flex items-center justify-between gap-6">
 
@@ -38,22 +38,68 @@ export default function Navbar() {
 
 </div>
 
-<ul className="hidden md:flex items-center gap-8 text-gray-800 font-medium text-lg mr-8">
+<ul className="hidden md:flex items-center gap-8 text-gray-800 text-lg mr-8 font-bold">
   <li><a href="/about" className="hover:text-orange-500 transition">درباره ما</a></li>
   <li><a href="/contact" className="hover:text-orange-600 transition">تماس با ما</a></li>
   <li><a href="/guide" className="hover:text-orange-600 transition">راهنما و قوانین خرید</a></li>
 
-  <li className="relative group">
-    <a href="#" className="flex items-center gap-1 hover:text-orange-600 transition">
-      فروشگاه <ChevronDown className="w-4 h-4" />
-    </a>
-    <ul className="absolute top-full mt-3 right-0 bg-white rounded-2xl shadow-2xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
-      <li><a href="/shop/boys" className="block px-7 py-3 hover:bg-orange-50 hover:text-orange-600 whitespace-nowrap">پسرانه</a></li>
-      <li><a href="/shop/girls" className="block px-7 py-3 hover:bg-orange-50 hover:text-orange-600 whitespace-nowrap">دخترانه</a></li>
-      <li><a href="/shop/sport" className="block px-7 py-3 hover:bg-orange-50 hover:text-orange-600 whitespace-nowrap rounded-b-2xl">اسپرت</a></li>
-    </ul>
-  </li>
-  <li><a href="/" className="hover:text-orange-600 transition">خانه</a></li>
+<li className="relative group">
+  <a href="#" className="flex items-center gap-1 hover:text-orange-600 transition">
+    فروشگاه <ChevronDown className="w-4 h-4" />
+  </a>
+
+  <ul className="absolute top-full mt-3 right-0 bg-white rounded-2xl shadow-2xl border border-gray-100 
+                opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+
+    <li className="relative group/sub">
+      <a className="block px-7 py-3 hover:bg-orange-50 hover:text-orange-600 whitespace-nowrap flex justify-between items-center">
+        پسرانه <ChevronDown className="w-4 h-4 rotate-90" />
+      </a>
+
+      <ul className="absolute top-0 right-full bg-white rounded-xl shadow-xl border border-gray-100 
+                    opacity-0 invisible group-hover/sub:opacity-100 group-hover/sub:visible transition-all duration-300">
+        <li><a href="/shop/boys/hat" className="block px-6 py-3 hover:bg-orange-50">کلاه</a></li>
+        <li><a href="/shop/boys/shoes" className="block px-6 py-3 hover:bg-orange-50">کفش</a></li>
+        <li><a href="/shop/boys/shirt" className="block px-6 py-3 hover:bg-orange-50">پیراهن</a></li>
+        <li><a href="/shop/boys/pants" className="block px-6 py-3 hover:bg-orange-50">شلوار</a></li>
+        <li><a href="/shop/boys/gloves" className="block px-6 py-3 hover:bg-orange-50">دستکش</a></li>
+      </ul>
+    </li>
+
+    <li className="relative group/sub">
+      <a className="block px-7 py-3 hover:bg-orange-50 hover:text-orange-600 whitespace-nowrap flex justify-between items-center">
+        دخترانه <ChevronDown className="w-4 h-4 rotate-90" />
+      </a>
+
+      <ul className="absolute top-0 right-full bg-white rounded-xl shadow-xl border border-gray-100 
+                    opacity-0 invisible group-hover/sub:opacity-100 group-hover/sub:visible transition-all duration-300">
+        <li><a href="/shop/girls/hat" className="block px-6 py-3 hover:bg-orange-50">کلاه</a></li>
+        <li><a href="/shop/girls/shoes" className="block px-6 py-3 hover:bg-orange-50">کفش</a></li>
+        <li><a href="/shop/girls/shirt" className="block px-6 py-3 hover:bg-orange-50">پیراهن</a></li>
+        <li><a href="/shop/girls/pants" className="block px-6 py-3 hover:bg-orange-50">شلوار</a></li>
+        <li><a href="/shop/girls/gloves" className="block px-6 py-3 hover:bg-orange-50">دستکش</a></li>
+      </ul>
+    </li>
+
+    <li className="relative group/sub rounded-b-2xl">
+      <a className="block px-7 py-3 hover:bg-orange-50 hover:text-orange-600 whitespace-nowrap flex justify-between items-center">
+        اسپرت <ChevronDown className="w-4 h-4 rotate-90" />
+      </a>
+
+      <ul className="absolute top-0 right-full bg-white rounded-xl shadow-xl border border-gray-100 
+                    opacity-0 invisible group-hover/sub:opacity-100 group-hover/sub:visible transition-all duration-300">
+        <li><a href="/shop/sport/hat" className="block px-6 py-3 hover:bg-orange-50">کلاه</a></li>
+        <li><a href="/shop/sport/shoes" className="block px-6 py-3 hover:bg-orange-50">کفش</a></li>
+        <li><a href="/shop/sport/shirt" className="block px-6 py-3 hover:bg-orange-50">پیراهن</a></li>
+        <li><a href="/shop/sport/pants" className="block px-6 py-3 hover:bg-orange-50">شلوار</a></li>
+        <li><a href="/shop/sport/gloves" className="block px-6 py-3 hover:bg-orange-50">دستکش</a></li>
+      </ul>
+    </li>
+
+  </ul>
+</li>
+
+  <li><a href="/" className="hover:text-orange-600 transition text-orange-600">خانه</a></li>
 </ul>
 
           <div>
