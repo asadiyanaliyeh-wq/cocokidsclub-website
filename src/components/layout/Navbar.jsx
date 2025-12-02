@@ -52,7 +52,7 @@ export default function Navbar() {
                 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
 
     <li className="relative group/sub">
-      <a className="block px-7 py-3 hover:bg-orange-50 hover:text-orange-600 whitespace-nowrap flex justify-between items-center">
+      <a className="px-7 py-3 hover:bg-orange-50 hover:text-orange-600 whitespace-nowrap flex justify-between items-center">
         پسرانه <ChevronDown className="w-4 h-4 rotate-90" />
       </a>
 
@@ -67,7 +67,7 @@ export default function Navbar() {
     </li>
 
     <li className="relative group/sub">
-      <a className="block px-7 py-3 hover:bg-orange-50 hover:text-orange-600 whitespace-nowrap flex justify-between items-center">
+      <a className=" px-7 py-3 hover:bg-orange-50 hover:text-orange-600 whitespace-nowrap flex justify-between items-center">
         دخترانه <ChevronDown className="w-4 h-4 rotate-90" />
       </a>
 
@@ -82,7 +82,7 @@ export default function Navbar() {
     </li>
 
     <li className="relative group/sub rounded-b-2xl">
-      <a className="block px-7 py-3 hover:bg-orange-50 hover:text-orange-600 whitespace-nowrap flex justify-between items-center">
+      <a className=" px-7 py-3 hover:bg-orange-50 hover:text-orange-600 whitespace-nowrap flex justify-between items-center">
         اسپرت <ChevronDown className="w-4 h-4 rotate-90" />
       </a>
 
