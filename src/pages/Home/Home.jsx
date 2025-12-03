@@ -2,6 +2,7 @@
 import Navbar from '../../components/layout/Navbar';
 import HeroSection from './components/HeroSection';
 import ChildrenCards from './components/ChildrenCards';
+import PromotionSection from './components/PromotionSection'; 
 
 export default function Home() {
   return (
@@ -15,19 +16,20 @@ export default function Home() {
       <div className="h-20"></div>
 
       <HeroSection />
-
       <ChildrenCards />
 
-<section className="w-full flex justify-start my-32">
-  <img 
-    src="/images/photo-3.png" 
-    className="w-[320px] object-contain  pointer-events-none select-none"
-    alt=""
-  />
-</section>
+      <section className="w-full flex justify-start my-32">
+        <img 
+          src="/images/photo-3.png" 
+          className="w-[320px] object-contain pointer-events-none select-none"
+          alt="جغد کوکو"
+        />
+      </section>
 
+      <PromotionSection />
 
-      <div className="h-96"></div>
+ 
+      <div className="h-32"></div>
     </>
   );
 }
