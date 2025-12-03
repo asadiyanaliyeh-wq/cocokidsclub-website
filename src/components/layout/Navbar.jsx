@@ -41,7 +41,7 @@ export default function Navbar() {
 <ul className="hidden md:flex items-center gap-8 text-gray-800 text-lg mr-8 font-bold">
   <li><a href="/about" className="hover:text-orange-500 transition">درباره ما</a></li>
   <li><a href="/contact" className="hover:text-orange-600 transition">تماس با ما</a></li>
-  <li><a href="/guide" className="hover:text-orange-600 transition">راهنما و قوانین خرید</a></li>
+  <li><a href="/rules" className="hover:text-orange-600 transition">راهنما و قوانین خرید</a></li>
 
 <li className="relative group">
   <a href="#" className="flex items-center gap-1 hover:text-orange-600 transition">
