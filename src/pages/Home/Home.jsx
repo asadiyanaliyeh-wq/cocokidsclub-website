@@ -18,11 +18,11 @@ export default function Home() {
       <HeroSection />
       <ChildrenCards />
 
-      <section className="w-full flex justify-start my-32">
+      <section className="w-full flex justify-start ">
         <img 
           src="/images/photo-3.png" 
           className="w-[320px] object-contain pointer-events-none select-none"
-          alt="جغد کوکو"
+          alt="جغد "
         />
       </section>
 

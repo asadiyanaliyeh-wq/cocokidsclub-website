@@ -1,5 +1,5 @@
 import { ShoppingBag, Heart, User, ChevronDown, Search } from 'lucide-react';
-
+import { Link } from "react-router-dom";
 export default function Navbar() {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 transition-all duration-500 
@@ -13,11 +13,27 @@ export default function Navbar() {
 
   <div className="flex items-center gap-6">
 
-  <div className="flex items-center gap-5">
-    <button className="relative hover:scale-110 transition"><ShoppingBag className="w-6 h-6 text-gray-700" /><span className="absolute -top-2 -right-2 bg-orange-500 text-white text-xs rounded-full w-5 h-5">0</span></button>
-    <button className="relative hover:scale-110 transition"><Heart className="w-6 h-6 text-gray-700" /><span className="absolute -top-2 -right-2 bg-orange-500 text-white text-xs rounded-full w-5 h-5">0</span></button>
-    <button className="hover:scale-110 transition"><User className="w-6 h-6 text-gray-700" /></button>
-  </div>
+
+<div className="flex items-center gap-5">
+  <Link to="/cart" className="relative hover:scale-110 transition">
+    <ShoppingBag className="w-6 h-6 text-gray-700" />
+    <span className="absolute -top-2 -right-2 bg-orange-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+      0
+    </span>
+  </Link>
+
+  <Link to="/wishlist" className="relative hover:scale-110 transition">
+    <Heart className="w-6 h-6 text-gray-700" />
+    <span className="absolute -top-2 -right-2 bg-orange-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+      0
+    </span>
+  </Link>
+
+  <Link to="/profile" className="hover:scale-110 transition">
+    <User className="w-6 h-6 text-gray-700" />
+  </Link>
+</div>
+
 
   <div className="hidden lg:flex items-center">
     <div className="flex items-center bg-white rounded-full border border-gray-300 hover:border-orange-500 focus-within:border-orange-500 transition-all duration-300 shadow-sm">
@@ -41,7 +57,7 @@ export default function Navbar() {
 <ul className="hidden md:flex items-center gap-8 text-gray-800 text-lg mr-8 font-bold">
   <li><a href="/about" className="hover:text-orange-500 transition">درباره ما</a></li>
   <li><a href="/contact" className="hover:text-orange-600 transition">تماس با ما</a></li>
-  <li><a href="/rules" className="hover:text-orange-600 transition">راهنما و قوانین خرید</a></li>
+  <li><a href="/Rules" className="hover:text-orange-600 transition">راهنما و قوانین خرید</a></li>
 
 <li className="relative group">
   <a href="#" className="flex items-center gap-1 hover:text-orange-600 transition">
@@ -67,7 +83,7 @@ export default function Navbar() {
     </li>
 
     <li className="relative group/sub">
-      <a className=" px-7 py-3 hover:bg-orange-50 hover:text-orange-600 whitespace-nowrap flex justify-between items-center">
+      <a className="px-7 py-3 hover:bg-orange-50 hover:text-orange-600 whitespace-nowrap flex justify-between items-center">
         دخترانه <ChevronDown className="w-4 h-4 rotate-90" />
       </a>
 
@@ -82,7 +98,7 @@ export default function Navbar() {
     </li>
 
     <li className="relative group/sub rounded-b-2xl">
-      <a className=" px-7 py-3 hover:bg-orange-50 hover:text-orange-600 whitespace-nowrap flex justify-between items-center">
+      <a className="px-7 py-3 hover:bg-orange-50 hover:text-orange-600 whitespace-nowrap flex justify-between items-center">
         اسپرت <ChevronDown className="w-4 h-4 rotate-90" />
       </a>
 
