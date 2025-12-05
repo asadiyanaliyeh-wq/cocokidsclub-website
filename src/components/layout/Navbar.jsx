@@ -1,6 +1,21 @@
+// src/components/layout/Navbar.jsx
 import { ShoppingBag, Heart, User, ChevronDown, Search } from 'lucide-react';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useCart } from "../../context/CartContext";
+import { useAuth } from "../../context/AuthContext";
+
 export default function Navbar() {
+  const { cartCount, wishlistCount } = useCart();
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
+  const handleProtectedClick = (e) => {
+    if (!user) {
+      e.preventDefault();
+      navigate("/login");
+    }
+  };
+
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 transition-all duration-500 
                     bg-white shadow-md 
@@ -8,122 +23,140 @@ export default function Navbar() {
                     scroll-bg-transparent">
 
       <div className="px-4 sm:px-6 lg:px-8 py-2">
-
         <div className="flex items-center justify-between gap-6">
 
-  <div className="flex items-center gap-6">
+          <div className="flex items-center gap-6">
 
+            <div className="flex items-center gap-5">
 
-<div className="flex items-center gap-5">
-  <Link to="/cart" className="relative hover:scale-110 transition">
-    <ShoppingBag className="w-6 h-6 text-gray-700" />
-    <span className="absolute -top-2 -right-2 bg-orange-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-      0
-    </span>
-  </Link>
+              <Link
+                to={user ? "/dashboard" : "#"}
+                onClick={handleProtectedClick}
+                className="relative hover:scale-110 transition"
+              >
+                <ShoppingBag className={`w-6 h-6 ${user ? "text-gray-700" : "text-gray-400"}`} />
+                {cartCount > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-orange-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center animate-pulse">
+                    {cartCount}
+                  </span>
+                )}
+              </Link>
 
-  <Link to="/wishlist" className="relative hover:scale-110 transition">
-    <Heart className="w-6 h-6 text-gray-700" />
-    <span className="absolute -top-2 -right-2 bg-orange-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-      0
-    </span>
-  </Link>
+              <Link
+                to={user ? "/dashboard" : "#"}
+                onClick={handleProtectedClick}
+                className="relative hover:scale-110 transition"
+              >
+                <Heart
+                  className={`w-6 h-6 transition-all ${
+                    wishlistCount > 0 && user
+                      ? "text-pink-600 fill-pink-600"
+                      : user
+                      ? "text-gray-700"
+                      : "text-gray-400"
+                  }`}
+                />
+                {wishlistCount > 0 && user && (
+                  <span className="absolute -top-2 -right-2 bg-orange-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center animate-bounce">
+                    {wishlistCount}
+                  </span>
+                )}
+              </Link>
 
-  <Link to="/profile" className="hover:scale-110 transition">
-    <User className="w-6 h-6 text-gray-700" />
-  </Link>
-</div>
+              <Link to={user ? "/dashboard" : "/login"} className="hover:scale-110 transition">
+                <User className="w-6 h-6 text-gray-700" />
+              </Link>
 
+            </div>
 
-  <div className="hidden lg:flex items-center">
-    <div className="flex items-center bg-white rounded-full border border-gray-300 hover:border-orange-500 focus-within:border-orange-500 transition-all duration-300 shadow-sm">
-      <button className="bg-orange-500 text-white rounded-full p-3 hover:bg-orange-600 transition-all">
-        <Search className="w-6 h-6" />
-      </button>
-      <input
-        type="text"
-        placeholder="جستجو در محصولات"
-        className="w-70 px-4 py-3 pr-6 text-right outline-none text-gray-700 placeholder-gray-500 font-medium bg-transparent"
-      />
-    </div>
-  </div>
+            <div className="hidden lg:flex items-center">
+              <div className="flex items-center bg-white rounded-full border border-gray-300 hover:border-orange-500 focus-within:border-orange-500 transition-all duration-300 shadow-sm">
+                <button className="bg-orange-500 text-white rounded-full p-3 hover:bg-orange-600 transition-all">
+                  <Search className="w-6 h-6" />
+                </button>
+                <input
+                  type="text"
+                  placeholder="جستجو در محصولات"
+                  className="w-70 px-4 py-3 pr-6 text-right outline-none text-gray-700 placeholder-gray-500 font-medium bg-transparent"
+                />
+              </div>
+            </div>
 
-  <button className="lg:hidden bg-orange-500 text-white rounded-full p-3 shadow-md hover:shadow-lg transition-all">
-    <Search className="w-6 h-6" />
-  </button>
+            <button className="lg:hidden bg-orange-500 text-white rounded-full p-3 shadow-md hover:shadow-lg transition-all">
+              <Search className="w-6 h-6" />
+            </button>
 
-</div>
+          </div>
 
-<ul className="hidden md:flex items-center gap-8 text-gray-800 text-lg mr-8 font-bold">
-  <li><a href="/about" className="hover:text-orange-500 transition">درباره ما</a></li>
-  <li><a href="/contact" className="hover:text-orange-600 transition">تماس با ما</a></li>
-  <li><a href="/Rules" className="hover:text-orange-600 transition">راهنما و قوانین خرید</a></li>
+          <ul className="hidden md:flex items-center gap-8 text-gray-800 text-lg mr-8 font-bold">
+            <li><Link to="/about" className="hover:text-orange-500 transition">درباره ما</Link></li>
+            <li><Link to="/contact" className="hover:text-orange-600 transition">تماس با ما</Link></li>
+            <li><Link to="/rules" className="hover:text-orange-600 transition">راهنما و قوانین خرید</Link></li>
 
-<li className="relative group">
-  <a href="#" className="flex items-center gap-1 hover:text-orange-600 transition">
-    فروشگاه <ChevronDown className="w-4 h-4" />
-  </a>
+            <li className="relative group">
+              <a href="#" className="flex items-center gap-1 hover:text-orange-600 transition">
+                فروشگاه <ChevronDown className="w-4 h-4" />
+              </a>
 
-  <ul className="absolute top-full mt-3 right-0 bg-white rounded-2xl shadow-2xl border border-gray-100 
-                opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+              <ul className="absolute top-full mt-3 right-0 bg-white rounded-2xl shadow-2xl border border-gray-100 
+                            opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
 
-    <li className="relative group/sub">
-      <a className="px-7 py-3 hover:bg-orange-50 hover:text-orange-600 whitespace-nowrap flex justify-between items-center">
-        پسرانه <ChevronDown className="w-4 h-4 rotate-90" />
-      </a>
+                <li className="relative group/sub">
+                  <a className="px-7 py-3 hover:bg-orange-50 hover:text-orange-600 whitespace-nowrap flex justify-between items-center">
+                    پسرانه <ChevronDown className="w-4 h-4 rotate-90" />
+                  </a>
+                  <ul className="absolute top-0 right-full bg-white rounded-xl shadow-xl border border-gray-100 
+                                opacity-0 invisible group-hover/sub:opacity-100 group-hover/sub:visible transition-all duration-300">
+                    <li><a href="/shop/boys/hat" className="block px-6 py-3 hover:bg-orange-50">کلاه</a></li>
+                    <li><a href="/shop/boys/shoes" className="block px-6 py-3 hover:bg-orange-50">کفش</a></li>
+                    <li><a href="/shop/boys/shirt" className="block px-6 py-3 hover:bg-orange-50">پیراهن</a></li>
+                    <li><a href="/shop/boys/pants" className="block px-6 py-3 hover:bg-orange-50">شلوار</a></li>
+                    <li><a href="/shop/boys/gloves" className="block px-6 py-3 hover:bg-orange-50">دستکش</a></li>
+                  </ul>
+                </li>
 
-      <ul className="absolute top-0 right-full bg-white rounded-xl shadow-xl border border-gray-100 
-                    opacity-0 invisible group-hover/sub:opacity-100 group-hover/sub:visible transition-all duration-300">
-        <li><a href="/shop/boys/hat" className="block px-6 py-3 hover:bg-orange-50">کلاه</a></li>
-        <li><a href="/shop/boys/shoes" className="block px-6 py-3 hover:bg-orange-50">کفش</a></li>
-        <li><a href="/shop/boys/shirt" className="block px-6 py-3 hover:bg-orange-50">پیراهن</a></li>
-        <li><a href="/shop/boys/pants" className="block px-6 py-3 hover:bg-orange-50">شلوار</a></li>
-        <li><a href="/shop/boys/gloves" className="block px-6 py-3 hover:bg-orange-50">دستکش</a></li>
-      </ul>
-    </li>
+                <li className="relative group/sub">
+                  <a className="px-7 py-3 hover:bg-orange-50 hover:text-orange-600 whitespace-nowrap flex justify-between items-center">
+                    دخترانه <ChevronDown className="w-4 h-4 rotate-90" />
+                  </a>
+                  <ul className="absolute top-0 right-full bg-white rounded-xl shadow-xl border border-gray-100 
+                                opacity-0 invisible group-hover/sub:opacity-100 group-hover/sub:visible transition-all duration-300">
+                    <li><a href="/shop/girls/hat" className="block px-6 py-3 hover:bg-orange-50">کلاه</a></li>
+                    <li><a href="/shop/girls/shoes" className="block px-6 py-3 hover:bg-orange-50">کفش</a></li>
+                    <li><a href="/shop/girls/shirt" className="block px-6 py-3 hover:bg-orange-50">پیراهن</a></li>
+                    <li><a href="/shop/girls/pants" className="block px-6 py-3 hover:bg-orange-50">شلوار</a></li>
+                    <li><a href="/shop/girls/gloves" className="block px-6 py-3 hover:bg-orange-50">دستکش</a></li>
+                  </ul>
+                </li>
 
-    <li className="relative group/sub">
-      <a className="px-7 py-3 hover:bg-orange-50 hover:text-orange-600 whitespace-nowrap flex justify-between items-center">
-        دخترانه <ChevronDown className="w-4 h-4 rotate-90" />
-      </a>
+                <li className="relative group/sub rounded-b-2xl">
+                  <a className="px-7 py-3 hover:bg-orange-50 hover:text-orange-600 whitespace-nowrap flex justify-between items-center">
+                    اسپرت <ChevronDown className="w-4 h-4 rotate-90" />
+                  </a>
+                  <ul className="absolute top-0 right-full bg-white rounded-xl shadow-xl border border-gray-100 
+                                opacity-0 invisible group-hover/sub:opacity-100 group-hover/sub:visible transition-all duration-300">
+                    <li><a href="/shop/sport/hat" className="block px-6 py-3 hover:bg-orange-50">کلاه</a></li>
+                    <li><a href="/shop/sport/shoes" className="block px-6 py-3 hover:bg-orange-50">کفش</a></li>
+                    <li><a href="/shop/sport/shirt" className="block px-6 py-3 hover:bg-orange-50">پیراهن</a></li>
+                    <li><a href="/shop/sport/pants" className="block px-6 py-3 hover:bg-orange-50">شلوار</a></li>
+                    <li><a href="/shop/sport/gloves" className="block px-6 py-3 hover:bg-orange-50">دستکش</a></li>
+                  </ul>
+                </li>
 
-      <ul className="absolute top-0 right-full bg-white rounded-xl shadow-xl border border-gray-100 
-                    opacity-0 invisible group-hover/sub:opacity-100 group-hover/sub:visible transition-all duration-300">
-        <li><a href="/shop/girls/hat" className="block px-6 py-3 hover:bg-orange-50">کلاه</a></li>
-        <li><a href="/shop/girls/shoes" className="block px-6 py-3 hover:bg-orange-50">کفش</a></li>
-        <li><a href="/shop/girls/shirt" className="block px-6 py-3 hover:bg-orange-50">پیراهن</a></li>
-        <li><a href="/shop/girls/pants" className="block px-6 py-3 hover:bg-orange-50">شلوار</a></li>
-        <li><a href="/shop/girls/gloves" className="block px-6 py-3 hover:bg-orange-50">دستکش</a></li>
-      </ul>
-    </li>
+              </ul>
+            </li>
 
-    <li className="relative group/sub rounded-b-2xl">
-      <a className="px-7 py-3 hover:bg-orange-50 hover:text-orange-600 whitespace-nowrap flex justify-between items-center">
-        اسپرت <ChevronDown className="w-4 h-4 rotate-90" />
-      </a>
-
-      <ul className="absolute top-0 right-full bg-white rounded-xl shadow-xl border border-gray-100 
-                    opacity-0 invisible group-hover/sub:opacity-100 group-hover/sub:visible transition-all duration-300">
-        <li><a href="/shop/sport/hat" className="block px-6 py-3 hover:bg-orange-50">کلاه</a></li>
-        <li><a href="/shop/sport/shoes" className="block px-6 py-3 hover:bg-orange-50">کفش</a></li>
-        <li><a href="/shop/sport/shirt" className="block px-6 py-3 hover:bg-orange-50">پیراهن</a></li>
-        <li><a href="/shop/sport/pants" className="block px-6 py-3 hover:bg-orange-50">شلوار</a></li>
-        <li><a href="/shop/sport/gloves" className="block px-6 py-3 hover:bg-orange-50">دستکش</a></li>
-      </ul>
-    </li>
-
-  </ul>
-</li>
-
-  <li><a href="/" className="hover:text-orange-600 transition text-orange-600">خانه</a></li>
-</ul>
+            <li><Link to="/" className="hover:text-orange-600 transition text-orange-600">خانه</Link></li>
+          </ul>
 
           <div>
-            <img 
-              src="/images/logo-1.png" 
-              alt="کوکو کیدز کلاب" 
-              className="h-14 lg:h-16 object-contain"
-            />
+            <Link to="/">
+              <img 
+                src="/images/logo-1.png" 
+                alt="کوکو کیدز کلاب" 
+                className="h-14 lg:h-16 object-contain"
+              />
+            </Link>
           </div>
 
         </div>

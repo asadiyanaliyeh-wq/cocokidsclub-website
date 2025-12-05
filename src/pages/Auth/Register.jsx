@@ -1,54 +1,78 @@
+// src/pages/Auth/Register.jsx
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 export default function Register() {
-  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const { register } = useAuth();
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError("");
 
-    localStorage.setItem("token", "demo-token"); 
-    navigate("/dashboard");
+    const res = register(email, password);
+
+    if (res.success) {
+      navigate("/dashboard");
+    } else {
+      setError(res.message || "خطایی رخ داد");
+    }
+    setLoading(false);
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white p-8 rounded-xl shadow-md w-full max-w-sm"
-      >
-        <h2 className="text-2xl font-bold mb-6 text-center">ثبت‌نام</h2>
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
+      <div className="w-full max-w-md">
+        <div className="text-center mb-10">
+          <h1 className="text-4xl font-bold text-gray-800">ثبت‌نام</h1>
+          <p className="mt-4 text-orange-600">با ایمیل و رمز عبور</p>
+        </div>
 
-        <input
-          type="email"
-          placeholder="ایمیل"
-          className="w-full p-3 border rounded-lg mb-4"
-          onChange={(e) => setEmail(e.target.value)}
-        />
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <input
+            type="email"
+            placeholder="example@gmail.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full px-6 py-5 text-lg text-center rounded-2xl border-2 border-orange-400 focus:outline-none focus:border-orange-500 transition"
+            required
+          />
 
-        <input
-          type="password"
-          placeholder="رمز عبور"
-          className="w-full p-3 border rounded-lg mb-4"
-          onChange={(e) => setPassword(e.target.value)}
-        />
+          <input
+            type="password"
+            placeholder="رمز عبور (حداقل 6 کاراکتر)"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full px- px-6 py-5 text-lg text-center rounded-2xl border-2 border-orange-400 focus:outline-none focus:border-orange-500 transition"
+            minLength="6"
+            required
+          />
 
-        <button
-          type="submit"
-          className="w-full bg-green-600 text-white p-3 rounded-lg"
-        >
-          ثبت‌نام
-        </button>
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold text-xl py-5 rounded-2xl transition-colors flex items-center justify-center gap-3"
+          >
+            {loading ? "در حال ثبت‌نام..." : "ثبت‌نام"}
+            <span className="text-2xl">→</span>
+          </button>
+        </form>
 
-        <p className="text-center mt-4 text-sm">
-          حساب داری؟{" "}
-          <Link to="/login" className="text-blue-600 underline">
-            ورود
+        {error && <p className="text-red-500 text-center mt-4 font-medium">{error}</p>}
+
+        <p className="text-center mt-8 text-gray-600">
+          قبلاً حساب دارید؟{" "}
+          <Link to="/login" className="text-orange-600 font-bold hover:underline">
+            وارد شوید
           </Link>
         </p>
-      </form>
+      </div>
     </div>
   );
 }
