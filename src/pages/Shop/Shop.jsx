@@ -1,33 +1,57 @@
-import { useState, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Search, ChevronDown } from "lucide-react";
 import Navbar from "../../components/layout/Navbar";
 import Card from "../../components/ui/Card.jsx";
 
-const mockProducts = [
-  { id: 1, title: "لگ میکی نی نی", price: 310000, category: "دخترانه", image: "/images/photo-1.jpg", date: "2025-01-15", sales: 145 },
-  { id: 2, title: "بادی کرپ نوزادی", price: 240000, category: "دخترانه", image: "/images/photo-2.jpg", date: "2025-01-10", sales: 98 },
-  { id: 3, title: "بادی کوئین نوزادی", price: 240000, category: "دخترانه", image: "/images/photo-3-600x800.jpg", date: "2025-01-20", sales: 201 },
-  { id: 4, title: "ست ۳ تیکه ماشین", price: 520000, category: "پسرانه", image: "/images/photo-7.png", date: "2025-01-05", sales: 67 },
-  { id: 5, title: "ست دورس و شلوار", price: 680000, category: "دخترانه", image: "/images/photo-6.png", date: "2025-01-18", sales: 189 },
-  { id: 6, title: "ست زمستونی پشمی", price: 750000, category: "دخترانه", image: "/images/photo-3.png", date: "2025-01-12", sales: 134 },
-  { id: 7, title: "ست اسپرت پسرانه", price: 590000, category: "پسرانه", image: "/images/photo-4-600x800.jpg", date: "2025-01-22", sales: 176 },
-  { id: 8, title: "شلوار جین پسرانه", price: 380000, category: "پسرانه", image: "/images/zara.png", date: "2025-01-08", sales: 112 },
-  { id: 9, title: "ست تابستونی گلدار", price: 420000, category: "دخترانه", image: "/images/photo-3-600x800.jpg", date: "2025-01-25", sales: 210 },
-];
-
 export default function Shop() {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   const [searchTerm, setSearchTerm] = useState("");
   const [activeFilter, setActiveFilter] = useState("all");
   const [sortOption, setSortOption] = useState("جدیدترین");
-  const [priceRange, setPriceRange] = useState([0, 1000000]); 
-
+  const [priceRange, setPriceRange] = useState([0, 1000000]);
   const [minPrice, maxPrice] = priceRange;
 
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch("http://localhost:1337/api/products?populate=*");
+        if (!response.ok) throw new Error("محصولات بارگذاری نشد");
+
+        const json = await response.json();
+
+        const formatted = json.data.map(item => ({
+          id: item.id,
+          title: item.title || "بدون عنوان",
+          slug: item.slug || "",
+          price: item.price || 0,
+          category: item.Category === "girl" ? "دخترانه" : item.Category === "boy" ? "پسرانه" : "نامشخص",
+          image: item.image?.url 
+            ? `http://localhost:1337${item.image.url}` 
+            : "/images/photo-1.jpg",
+          date: item.createdAt,
+          sales: Math.floor(Math.random() * 500), 
+        }));
+
+        setProducts(formatted);
+        setLoading(false);
+      } catch (err) {
+        console.error("خطا در دریافت محصولات:", err);
+        setError("محصولات بارگذاری نشد. لطفاً دوباره تلاش کنید.");
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
   const filteredAndSortedProducts = useMemo(() => {
-    let result = [...mockProducts];
+    let result = [...products];
 
     if (searchTerm) {
-      result = result.filter(p => p.title.includes(searchTerm));
+      result = result.filter(p => p.title.toLowerCase().includes(searchTerm.toLowerCase()));
     }
 
     if (activeFilter !== "all") {
@@ -42,18 +66,17 @@ export default function Shop() {
         case "قدیمی‌ترین": return new Date(a.date) - new Date(b.date);
         case "ارزان‌ترین": return a.price - b.price;
         case "گران‌ترین": return b.price - a.price;
-        case "پرفروش‌ترین": return (b.sales || 0) - (a.sales || 0);
+        case "پرفروش‌ترین": return b.sales - a.sales;
         default: return 0;
       }
     });
 
     return result;
-  }, [searchTerm, activeFilter, sortOption, minPrice, maxPrice]);
+  }, [products, searchTerm, activeFilter, sortOption, minPrice, maxPrice]);
 
   const handlePriceChange = (e) => {
     const value = Number(e.target.value);
     const name = e.target.name;
-
     if (name === "min") {
       setPriceRange([Math.min(value, maxPrice - 10000), maxPrice]);
     } else {
@@ -91,22 +114,24 @@ export default function Shop() {
             ))}
           </div>
 
-          <div className="flex flex-col sm:flex-row items-center gap-4 w-full lg:w-auto">
+          <div className="flex flex-col sm:flex-row items-center gap-4">
             <span className="text-gray-600 font-medium">
               {filteredAndSortedProducts.length} محصول
             </span>
 
-            <select
-              value={sortOption}
-              onChange={(e) => setSortOption(e.target.value)}
-              className="appearance-none bg-white border-2 border-gray-300 rounded-full px-6 py-3 pr-10 font-medium focus:border-[#e35d06] outline-none cursor-pointer"
-            >
-              <option>جدیدترین</option>
-              <option>ارزان‌ترین</option>
-              <option>گران‌ترین</option>
-              <option>پرفروش‌ترین</option>
-            </select>
-            <ChevronDown className="absolute left-5 pointer-events-none text-gray-500" size={20} />
+            <div className="relative">
+              <select
+                value={sortOption}
+                onChange={(e) => setSortOption(e.target.value)}
+                className="appearance-none bg-white border-2 border-gray-300 rounded-full px-6 py-3 pr-10 font-medium focus:border-[#e35d06] outline-none cursor-pointer"
+              >
+                <option>جدیدترین</option>
+                <option>ارزان‌ترین</option>
+                <option>گران‌ترین</option>
+                <option>پرفروش‌ترین</option>
+              </select>
+              <ChevronDown className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" size={20} />
+            </div>
 
             <div className="relative">
               <input
@@ -122,66 +147,45 @@ export default function Shop() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          <div className="lg:col-span-1 space-y-6">
+          <div className="lg:col-span-1">
             <div className="bg-white p-6 rounded-2xl shadow-md">
               <h3 className="font-bold text-xl mb-6 text-gray-800">فیلتر بر اساس قیمت</h3>
-              
               <div className="relative h-2 bg-gray-200 rounded-full">
-                <input
-                  type="range"
-                  min="0"
-                  max="1000000"
-                  step="10000"
-                  value={minPrice}
-                  name="min"
-                  onChange={handlePriceChange}
-                  className="absolute w-full h-full appearance-none bg-transparent cursor-pointer z-10"
-                />
-                <input
-                  type="range"
-                  min="0"
-                  max="1000000"
-                  step="10000"
-                  value={maxPrice}
-                  name="max"
-                  onChange={handlePriceChange}
-                  className="absolute w-full h-full appearance-none bg-transparent cursor-pointer z-20"
-                />
-                <div
-                  className="absolute h-full bg-[#e35d06] rounded-full"
-                  style={{
-                    left: `${(minPrice / 1000000) * 100}%`,
-                    right: `${100 - (maxPrice / 1000000) * 100}%`
-                  }}
-                />
+                <input type="range" min="0" max="1000000" step="10000" value={minPrice} name="min" onChange={handlePriceChange}
+                  className="absolute w-full h-full appearance-none bg-transparent cursor-pointer z-10" />
+                <input type="range" min="0" max="1000000" step="10000" value={maxPrice} name="max" onChange={handlePriceChange}
+                  className="absolute w-full h-full appearance-none bg-transparent cursor-pointer z-20" />
+                <div className="absolute h-full bg-[#e35d06] rounded-full"
+                     style={{ left: `${(minPrice / 1000000) * 100}%`, right: `${100 - (maxPrice / 1000000) * 100}%` }} />
               </div>
-
               <div className="flex justify-between mt-6 text-sm font-bold text-[#e35d06]">
                 <span>{minPrice.toLocaleString("fa-IR")} تومان</span>
                 <span>{maxPrice.toLocaleString("fa-IR")} تومان</span>
               </div>
             </div>
-
-            <div className="bg-white p-6 rounded-2xl shadow-md">
-              <h3 className="font-bold text-xl mb-4">دسته‌های محبوب</h3>
-              <ul className="space-y-3 text-gray-700">
-                <li className="flex justify-between"><span>ست نوزادی</span><span className="text-gray-500 text-sm">(۱۲)</span></li>
-                <li className="flex justify-between"><span>بادی</span><span className="text-gray-500 text-sm">(۸)</span></li>
-                <li className="flex justify-between"><span>شلوار</span><span className="text-gray-500 text-sm">(۱۵)</span></li>
-              </ul>
-            </div>
           </div>
 
           <div className="lg:col-span-3">
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
-              {filteredAndSortedProducts.map(product => (
-                <div key={product.id} className="hover:scale-105 transition-transform duration-300">
-                  <Card product={product} />
-                </div>
-              ))}
-            </div>
+            {loading && (
+              <div className="text-center py-20">
+                <div className="inline-block animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-[#e35d06]"></div>
+                <p className="mt-4 text-xl text-gray-600">در حال بارگذاری محصولات...</p>
+              </div>
+            )}
 
-            {filteredAndSortedProducts.length === 0 && (
+            {error && <div className="text-center py-20 text-red-600 text-xl">{error}</div>}
+
+            {!loading && !error && (
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+                {filteredAndSortedProducts.map(product => (
+                  <div key={product.id} className="hover:scale-105 transition-transform duration-300">
+                    <Card product={product} />
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {!loading && !error && filteredAndSortedProducts.length === 0 && (
               <div className="text-center py-20 text-2xl text-gray-500">
                 محصولی با این مشخصات یافت نشد
               </div>
