@@ -107,11 +107,11 @@ export default function Navbar() {
                   </a>
                   <ul className="absolute top-0 right-full bg-white rounded-xl shadow-xl border border-gray-100 
                                 opacity-0 invisible group-hover/sub:opacity-100 group-hover/sub:visible transition-all duration-300">
-                    <li><a href="/shop/boys/hat" className="block px-6 py-3 hover:bg-orange-50">کلاه</a></li>
-                    <li><a href="/shop/boys/shoes" className="block px-6 py-3 hover:bg-orange-50">کفش</a></li>
-                    <li><a href="/shop/boys/shirt" className="block px-6 py-3 hover:bg-orange-50">پیراهن</a></li>
-                    <li><a href="/shop/boys/pants" className="block px-6 py-3 hover:bg-orange-50">شلوار</a></li>
-                    <li><a href="/shop/boys/gloves" className="block px-6 py-3 hover:bg-orange-50">دستکش</a></li>
+                    <li><a href="/shop" className="block px-6 py-3 hover:bg-orange-50">کلاه</a></li>
+                    <li><a href="/shop" className="block px-6 py-3 hover:bg-orange-50">کفش</a></li>
+                    <li><a href="/shop" className="block px-6 py-3 hover:bg-orange-50">پیراهن</a></li>
+                    <li><a href="/shop" className="block px-6 py-3 hover:bg-orange-50">شلوار</a></li>
+                    <li><a href="/shop" className="block px-6 py-3 hover:bg-orange-50">دستکش</a></li>
                   </ul>
                 </li>
 
@@ -121,11 +121,11 @@ export default function Navbar() {
                   </a>
                   <ul className="absolute top-0 right-full bg-white rounded-xl shadow-xl border border-gray-100 
                                 opacity-0 invisible group-hover/sub:opacity-100 group-hover/sub:visible transition-all duration-300">
-                    <li><a href="/shop/girls/hat" className="block px-6 py-3 hover:bg-orange-50">کلاه</a></li>
-                    <li><a href="/shop/girls/shoes" className="block px-6 py-3 hover:bg-orange-50">کفش</a></li>
-                    <li><a href="/shop/girls/shirt" className="block px-6 py-3 hover:bg-orange-50">پیراهن</a></li>
-                    <li><a href="/shop/girls/pants" className="block px-6 py-3 hover:bg-orange-50">شلوار</a></li>
-                    <li><a href="/shop/girls/gloves" className="block px-6 py-3 hover:bg-orange-50">دستکش</a></li>
+                    <li><a href="/shop" className="block px-6 py-3 hover:bg-orange-50">کلاه</a></li>
+                    <li><a href="/shop" className="block px-6 py-3 hover:bg-orange-50">کفش</a></li>
+                    <li><a href="/shop" className="block px-6 py-3 hover:bg-orange-50">پیراهن</a></li>
+                    <li><a href="/shop" className="block px-6 py-3 hover:bg-orange-50">شلوار</a></li>
+                    <li><a href="/shop" className="block px-6 py-3 hover:bg-orange-50">دستکش</a></li>
                   </ul>
                 </li>
 
@@ -135,11 +135,11 @@ export default function Navbar() {
                   </a>
                   <ul className="absolute top-0 right-full bg-white rounded-xl shadow-xl border border-gray-100 
                                 opacity-0 invisible group-hover/sub:opacity-100 group-hover/sub:visible transition-all duration-300">
-                    <li><a href="/shop/sport/hat" className="block px-6 py-3 hover:bg-orange-50">کلاه</a></li>
-                    <li><a href="/shop/sport/shoes" className="block px-6 py-3 hover:bg-orange-50">کفش</a></li>
-                    <li><a href="/shop/sport/shirt" className="block px-6 py-3 hover:bg-orange-50">پیراهن</a></li>
-                    <li><a href="/shop/sport/pants" className="block px-6 py-3 hover:bg-orange-50">شلوار</a></li>
-                    <li><a href="/shop/sport/gloves" className="block px-6 py-3 hover:bg-orange-50">دستکش</a></li>
+                    <li><a href="/shop" className="block px-6 py-3 hover:bg-orange-50">کلاه</a></li>
+                    <li><a href="/shop" className="block px-6 py-3 hover:bg-orange-50">کفش</a></li>
+                    <li><a href="/shop" className="block px-6 py-3 hover:bg-orange-50">پیراهن</a></li>
+                    <li><a href="/shop" className="block px-6 py-3 hover:bg-orange-50">شلوار</a></li>
+                    <li><a href="/shops" className="block px-6 py-3 hover:bg-orange-50">دستکش</a></li>
                   </ul>
                 </li>
 
