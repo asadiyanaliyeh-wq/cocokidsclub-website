@@ -4,6 +4,7 @@ import Home from "./pages/Home/Home";
 import Rules from "./pages/Rules/Rules";
 import About from "./pages/About/About";
 import Contact from "./pages/Contact/Contact";
+import Shop from "./pages/Shop/Shop.jsx";          
 
 import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
@@ -14,15 +15,13 @@ import ProtectedRoute from "./utils/ProtectedRoute";
 
 function Layout({ children }) {
   const location = useLocation();
-
   const hideFooterRoutes = ["/login", "/register"];
-
   const shouldHideFooter = hideFooterRoutes.includes(location.pathname);
 
   return (
     <>
       {children}
-      {!shouldHideFooter && <Footer />}  
+      {!shouldHideFooter && <Footer />}
     </>
   );
 }
@@ -32,8 +31,8 @@ function App() {
     <Router>
       <Layout>
         <Routes>
-
           <Route path="/" element={<Home />} />
+          <Route path="/shop" element={<Shop />} />        
           <Route path="/rules" element={<Rules />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
@@ -49,7 +48,6 @@ function App() {
               </ProtectedRoute>
             }
           />
-
         </Routes>
       </Layout>
     </Router>
