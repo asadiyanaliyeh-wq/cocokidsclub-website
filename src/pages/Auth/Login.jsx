@@ -1,28 +1,31 @@
-import { useState } from "react";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import { Link, useNavigate } from "react-router-dom";
+import * as Yup from "yup";
 import { useAuth } from "../../context/AuthContext";
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const { login } = useAuth();
   const navigate = useNavigate();
+  const { login } = useAuth();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError("");
+  const initialValues = {
+    email: "",
+    password: "",
+  };
 
-    const res = login(email, password); 
+  const validationSchema = Yup.object({
+    email: Yup.string().email("ایمیل معتبر نیست").required("ایمیل لازم است"),
+    password: Yup.string().required("رمز عبور لازم است"),
+  });
+
+  const handleSubmit = (values, { setSubmitting, setErrors }) => {
+    const res = login(values.email, values.password);
 
     if (res.success) {
       navigate("/dashboard");
     } else {
-      setError(res.message || "ایمیل یا رمز عبور اشتباه است");
+      setErrors({ password: res.message || "ایمیل یا رمز عبور اشتباه است" });
     }
-    setLoading(false);
+    setSubmitting(false);
   };
 
   return (
@@ -33,43 +36,48 @@ export default function Login() {
           <p className="mt-4 text-orange-600">با ایمیل و رمز عبور وارد شوید</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <input
-            type="email"
-            placeholder="example@gmail.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-6 py-5 text-lg text-center rounded-2xl border-2 border-orange-400 focus:outline-none focus:border-orange-500 transition"
-            required
-          />
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={handleSubmit}
+        >
+          {({ isSubmitting }) => (
+            <Form className="space-y-6">
+              <Field
+                type="email"
+                name="email"
+                placeholder="example@gmail.com"
+                className="w-full px-6 py-5 text-lg text-center rounded-2xl border-2 border-orange-400 focus:outline-none focus:border-orange-500 transition"
+              />
+              <ErrorMessage
+                name="email"
+                component="p"
+                className="text-red-500 text-center"
+              />
 
-          <input
-            type="password"
-            placeholder="رمز عبور"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-6 py-5 text-lg text-center rounded-2xl border-2 border-orange-400 focus:outline-none focus:border-orange-500 transition"
-            required
-          />
+              <Field
+                type="password"
+                name="password"
+                placeholder="رمز عبور"
+                className="w-full px-6 py-5 text-lg text-center rounded-2xl border-2 border-orange-400 focus:outline-none focus:border-orange-500 transition"
+              />
+              <ErrorMessage
+                name="password"
+                component="p"
+                className="text-red-500 text-center"
+              />
 
-          <div className="flex items-center justify-between text-sm">
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input type="checkbox" className="w-4 h-4 text-orange-600 rounded" />
-              <span className="text-gray-600">مرا به خاطر بسپار</span>
-            </label>
-          </div>
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold text-xl py-5 rounded-2xl transition-colors flex items-center justify-center gap-3"
-          >
-            {loading ? "در حال ورود..." : "ورود"}
-            <span className="text-2xl">→</span>
-          </button>
-        </form>
-
-        {error && <p className="text-red-500 text-center mt-4 font-medium">{error}</p>}
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold text-xl py-5 rounded-2xl transition-colors flex items-center justify-center gap-3"
+              >
+                {isSubmitting ? "در حال ورود..." : "ورود"}
+                <span className="text-2xl">→</span>
+              </button>
+            </Form>
+          )}
+        </Formik>
 
         <p className="text-center mt-8 text-gray-600">
           حساب ندارید؟{" "}
