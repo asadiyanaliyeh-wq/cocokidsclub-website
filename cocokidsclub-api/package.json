@@ -12,7 +12,9 @@
     "start": "strapi start",
     "strapi": "strapi",
     "upgrade": "npx @strapi/upgrade latest",
-    "upgrade:dry": "npx @strapi/upgrade latest --dry"
+    "upgrade:dry": "npx @strapi/upgrade latest --dry",
+    "postinstall": "node ./scripts/auto-import.js",
+    "db:reset": "strapi import --force --no-encrypt --file initial-data.tar.gz"
   },
   "dependencies": {
     "@strapi/plugin-cloud": "5.31.3",
