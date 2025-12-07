@@ -12,24 +12,28 @@ const possibleFiles = [
 
 let dataFile = null;
 for (const file of possibleFiles) {
-  if (fs.existsSync(path.join(__dirname, '..', file))) {
+  const fullPath = path.join(__dirname, '..', file);
+  if (fs.existsSync(fullPath)) {
     dataFile = file;
     break;
   }
 }
 
 if (dataFile) {
-  console.log(`دیتابیس پیدا شد: ${dataFile} — در حال وارد کردن کامل اطلاعات...`);
+  console.log(`دیتابیس پیدا شد: ${dataFile}`);
+  console.log('در حال وارد کردن کامل اطلاعات (محصولات + عکس‌ها + ادمین)...');
   try {
-    execSync(`npx strapi import --force --no-encrypt --file ${dataFile}`, {
+    // فقط این خط تغییر کرد: --no-encrypt حذف شد!
+    execSync(`npx strapi import --force --file ${dataFile}`, {
       stdio: 'inherit',
       cwd: path.join(__dirname, '..')
     });
-    console.log('تموم شد! همه چیز (محصولات، عکس‌ها، ادمین) وارد شد.');
+    console.log('تموم شد! همه چیز با موفقیت وارد شد');
     console.log('الان بزن: npm run develop');
   } catch (e) {
-    console.error('خطا در ایمپورت خودکار. دستی بزن: npm run db:reset');
+    console.error('خطا در ایمپورت خودکار');
+    console.error('دستی بزن: npm run db:pull');
   }
 } else {
-  console.log('هیچ فایل دیتابیس اولیه‌ای پیدا نشد. از دیتابیس خالی شروع می‌شه.');
+  console.log('فایل دیتابیس اولیه پیدا نشد — از دیتابیس خالی شروع می‌شه');
 }
