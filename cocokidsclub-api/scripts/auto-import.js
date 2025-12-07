@@ -12,28 +12,26 @@ const possibleFiles = [
 
 let dataFile = null;
 for (const file of possibleFiles) {
-  const fullPath = path.join(__dirname, '..', file);
-  if (fs.existsSync(fullPath)) {
+  if (fs.existsSync(path.join(__dirname, '..', file))) {
     dataFile = file;
     break;
   }
 }
 
 if (dataFile) {
-  console.log(`دیتابیس پیدا شد: ${dataFile}`);
-  console.log('در حال وارد کردن کامل اطلاعات (محصولات + عکس‌ها + ادمین)...');
+  console.log(`Found initial data: ${dataFile}`);
+  console.log('Importing database + uploads + admin...');
   try {
-    // فقط این خط تغییر کرد: --no-encrypt حذف شد!
     execSync(`npx strapi import --force --file ${dataFile}`, {
       stdio: 'inherit',
       cwd: path.join(__dirname, '..')
     });
-    console.log('تموم شد! همه چیز با موفقیت وارد شد');
-    console.log('الان بزن: npm run develop');
+    console.log('Import completed successfully!');
+    console.log('You can now run: npm run develop');
   } catch (e) {
-    console.error('خطا در ایمپورت خودکار');
-    console.error('دستی بزن: npm run db:pull');
+    console.error('Auto-import failed');
+    console.error('Run manually: npm run db:pull');
   }
 } else {
-  console.log('فایل دیتابیس اولیه پیدا نشد — از دیتابیس خالی شروع می‌شه');
+  console.log('No initial data file found – starting with empty database');
 }
