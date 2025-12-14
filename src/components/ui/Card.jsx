@@ -11,39 +11,33 @@ const Card = ({ product }) => {
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  // چک کن محصول تو سبد هست یا نه
   const isInCart = cart.some((item) => item.id === product.id);
   const isInWishlist = wishlist.some((item) => item.id === product.id);
 
-  // اگر کاربر لاگین نکرده → برو لاگین
   const requireLogin = (e) => {
     e.preventDefault();
     e.stopPropagation();
     navigate("/login");
   };
 
-  // فقط یک بار به سبد اضافه کنه (حتی اگه ۱۰۰ بار کلیک کرد!)
   const handleAddToCart = (e) => {
     e.preventDefault();
     e.stopPropagation();
 
     if (!user) return requireLogin(e);
 
-    // فقط اگه هنوز تو سبد نیست، اضافه کن
     if (!isInCart) {
       addToCart({ ...product, quantity: 1 });
     }
-    // اگه قبلاً اضافه شده بود → هیچی نکن (جلوگیری از تکرار)
   };
 
-  // علاقه‌مندی هم همینطور (تغییر وضعیت بده، نه اضافه چندباره)
   const handleToggleWishlist = (e) => {
     e.preventDefault();
     e.stopPropagation();
 
     if (!user) return requireLogin(e);
 
-    addToWishlist(product); // خودش مدیریت می‌کنه اضافه/حذف
+    addToWishlist(product); 
   };
 
   return (
@@ -69,13 +63,12 @@ const Card = ({ product }) => {
             {product.category}
           </span>
 
-          {/* دکمه‌های هاور */}
           <div
             className={`absolute top-12 left-2 flex flex-col gap-3 transition-all duration-500 z-20 ${
               isHovered ? "translate-x-0 opacity-100" : "-translate-x-16 opacity-0"
             }`}
           >
-            {/* دکمه سبد خرید */}
+       
             <button
               onClick={handleAddToCart}
               className={`p-3 rounded-full shadow-xl transition-all duration-300 transform hover:scale-110 flex items-center justify-center ${
@@ -89,7 +82,7 @@ const Card = ({ product }) => {
               <ShoppingCart size={20} strokeWidth={2.5} />
             </button>
 
-            {/* دکمه علاقه‌مندی */}
+     
             <button
               onClick={handleToggleWishlist}
               className={`p-3 rounded-full shadow-xl transition-all duration-300 transform hover:scale-110 flex items-center justify-center ${
@@ -107,7 +100,6 @@ const Card = ({ product }) => {
               />
             </button>
 
-            {/* مشاهده سریع */}
             <button
               className="p-3 bg-white rounded-full shadow-xl hover:bg-gray-800 hover:text-white transition-all duration-300 transform hover:scale-110"
               title="مشاهده سریع"

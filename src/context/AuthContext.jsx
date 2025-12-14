@@ -20,7 +20,6 @@ export const AuthProvider = ({ children }) => {
       return { success: false, message: "لطفاً ایمیل و رمز را وارد کنید" };
     }
 
-    // چک کردن کاربر در لیست کاربران
     const users = JSON.parse(localStorage.getItem("users") || "[]");
     const foundUser = users.find(u => u.email === email && u.password === password);
 
@@ -55,7 +54,7 @@ export const AuthProvider = ({ children }) => {
     const newUser = {
       id: Date.now(),
       email,
-      password, // فقط برای تست، تو واقعیت نباید ذخیره بشه
+      password, 
     };
 
     users.push(newUser);
