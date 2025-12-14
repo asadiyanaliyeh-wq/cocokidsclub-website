@@ -1,61 +1,91 @@
-# 🚀 Getting started with Strapi
+# 🚀 راهنمای اجرای پروژه CocoKidsClub
 
-Strapi comes with a full featured [Command Line Interface](https://docs.strapi.io/dev-docs/cli) (CLI) which lets you scaffold and manage your project in seconds.
+پروژه **CocoKidsClub** شامل دو بخش اصلی است:
 
-### `develop`
+* 🎨 **فرانت‌اند**: React + Vite
+* ⚙️ **بک‌اند**: Strapi
 
-Start your Strapi application with autoReload enabled. [Learn more](https://docs.strapi.io/dev-docs/cli#strapi-develop)
-
-```
-npm run develop
-# or
-yarn develop
-```
-
-### `start`
-
-Start your Strapi application with autoReload disabled. [Learn more](https://docs.strapi.io/dev-docs/cli#strapi-start)
-
-```
-npm run start
-# or
-yarn start
-```
-
-### `build`
-
-Build your admin panel. [Learn more](https://docs.strapi.io/dev-docs/cli#strapi-build)
-
-```
-npm run build
-# or
-yarn build
-```
-
-## ⚙️ Deployment
-
-Strapi gives you many possible deployment options for your project including [Strapi Cloud](https://cloud.strapi.io). Browse the [deployment section of the documentation](https://docs.strapi.io/dev-docs/deployment) to find the best solution for your use case.
-
-```
-yarn strapi deploy
-```
-
-## 📚 Learn more
-
-- [Resource center](https://strapi.io/resource-center) - Strapi resource center.
-- [Strapi documentation](https://docs.strapi.io) - Official Strapi documentation.
-- [Strapi tutorials](https://strapi.io/tutorials) - List of tutorials made by the core team and the community.
-- [Strapi blog](https://strapi.io/blog) - Official Strapi blog containing articles made by the Strapi team and the community.
-- [Changelog](https://strapi.io/changelog) - Find out about the Strapi product updates, new features and general improvements.
-
-Feel free to check out the [Strapi GitHub repository](https://github.com/strapi/strapi). Your feedback and contributions are welcome!
-
-## ✨ Community
-
-- [Discord](https://discord.strapi.io) - Come chat with the Strapi community including the core team.
-- [Forum](https://forum.strapi.io/) - Place to discuss, ask questions and find answers, show your Strapi project and get feedback or just talk with other Community members.
-- [Awesome Strapi](https://github.com/strapi/awesome-strapi) - A curated list of awesome things related to Strapi.
+برای اجرای صحیح پروژه، لازم است هر دو بخش **به‌صورت همزمان** اجرا شوند.
 
 ---
 
-<sub>🤫 Psst! [Strapi is hiring](https://strapi.io/careers).</sub>
+## 1️⃣ کلون کردن مخزن پروژه
+
+ابتدا مخزن پروژه را کلون کرده و وارد پوشه آن شوید:
+
+```bash
+git clone https://github.com/asadiyanaliyeh-wq/cocokidsclub-website
+cd cocokidsclub-website
+```
+
+---
+
+## 2️⃣ اجرای فرانت‌اند (Frontend)
+
+در مسیر اصلی پروژه، دستورات زیر را اجرا کنید:
+
+```bash
+npm install
+npm run dev
+```
+
+پس از اجرای موفق، فرانت‌اند پروژه در آدرس زیر در دسترس خواهد بود:
+
+🔗 **[http://localhost:5173](http://localhost:5173)**
+
+---
+
+## 3️⃣ اجرای بک‌اند (Strapi)
+
+### 📄 ساخت فایل `.env`
+
+وارد پوشه `cocokidsclub-api` شوید و یک فایل با نام `.env` (در کنار فایل `.env.example`) ایجاد کنید و محتوای زیر را داخل آن قرار دهید:
+
+```env
+# Server
+HOST=0.0.0.0
+PORT=1337
+
+# Secrets
+APP_KEYS=10PoDcQDI56ekARPlhXUDA==,S1DjanV8WZciLLgCvTYS+A==,DKW7lk31rsKt/1+b/T4YkQ==,8RUel7DTk8QiquYFInCOSg==
+API_TOKEN_SALT=QRg9UJvnPFXPHhkKFl+BUQ==
+ADMIN_JWT_SECRET=iERWYSVnkvmUS8dnigOXaw==
+TRANSFER_TOKEN_SALT=+H4ruq7UOje7QMt4ORNXvw==
+ENCRYPTION_KEY=kc4ArVb+I4zSQHSZav0z4Q==
+
+# Database (SQLite)
+DATABASE_CLIENT=sqlite
+DATABASE_FILENAME=.tmp/data.db
+DATABASE_SSL=false
+
+JWT_SECRET=AluasUm/eF0tKtr5eskeGg==
+```
+
+---
+
+### ▶️ اجرای Strapi
+
+در پوشه `cocokidsclub-api` دستورات زیر را اجرا کنید:
+
+```bash
+cd cocokidsclub-api
+npm install
+npm run develop
+```
+
+پس از اجرا، سرور و پنل مدیریت Strapi در آدرس زیر در دسترس خواهد بود:
+
+🔗 **[http://localhost:1337](http://localhost:1337)**
+
+---
+
+## 4️⃣ نتیجه نهایی
+
+پس از اجرای موفق هر دو بخش:
+
+* 🎨 **فرانت‌اند**: [http://localhost:5173](http://localhost:5173)
+* ⚙️ **بک‌اند (Strapi)**: [http://localhost:1337](http://localhost:1337)
+
+---
+
+✨ اکنون پروژه CocoKidsClub آماده توسعه و استفاده است. موفق باشید!
