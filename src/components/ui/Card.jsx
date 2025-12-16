@@ -1,4 +1,3 @@
-// src/components/ui/Card.jsx
 import { Link, useNavigate } from "react-router-dom";
 import { Heart, ShoppingCart, Eye } from "lucide-react";
 import { useState } from "react";
@@ -15,38 +14,36 @@ const Card = ({ product }) => {
   const isInWishlist = wishlist.some((item) => item.id === product.id);
 
   const requireLogin = (e) => {
-    e.preventDefault();
     e.stopPropagation();
     navigate("/login");
   };
 
   const handleAddToCart = (e) => {
-    e.preventDefault();
     e.stopPropagation();
-
     if (!user) return requireLogin(e);
-
     if (!isInCart) {
       addToCart({ ...product, quantity: 1 });
     }
   };
 
   const handleToggleWishlist = (e) => {
-    e.preventDefault();
     e.stopPropagation();
-
     if (!user) return requireLogin(e);
+    addToWishlist(product);
+  };
 
-    addToWishlist(product); 
+  const handleQuickView = (e) => {
+    e.stopPropagation();
+    alert("");
   };
 
   return (
     <div
-      className="group relative bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300"
+      className="group relative bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <Link to={`/product/${product.id}`} className="block">
+      <Link to={`/product/${product.slug}`} className="block">
         <div className="relative w-full pt-[100%] bg-gray-50 overflow-hidden">
           <img
             src={product.image || "/vite.svg"}
@@ -62,51 +59,6 @@ const Card = ({ product }) => {
           >
             {product.category}
           </span>
-
-          <div
-            className={`absolute top-12 left-2 flex flex-col gap-3 transition-all duration-500 z-20 ${
-              isHovered ? "translate-x-0 opacity-100" : "-translate-x-16 opacity-0"
-            }`}
-          >
-       
-            <button
-              onClick={handleAddToCart}
-              className={`p-3 rounded-full shadow-xl transition-all duration-300 transform hover:scale-110 flex items-center justify-center ${
-                isInCart
-                  ? "bg-orange-500 text-white"
-                  : "bg-white hover:bg-orange-500 hover:text-white"
-              } ${!user && "opacity-50 cursor-not-allowed"}`}
-              title={isInCart ? "در سبد خرید است" : "افزودن به سبد خرید"}
-              disabled={!user}
-            >
-              <ShoppingCart size={20} strokeWidth={2.5} />
-            </button>
-
-     
-            <button
-              onClick={handleToggleWishlist}
-              className={`p-3 rounded-full shadow-xl transition-all duration-300 transform hover:scale-110 flex items-center justify-center ${
-                isInWishlist
-                  ? "bg-pink-500 text-white"
-                  : "bg-white hover:bg-pink-500 hover:text-white"
-              } ${!user && "opacity-50 cursor-not-allowed"}`}
-              title={isInWishlist ? "از علاقه‌مندی حذف شد" : "افزودن به علاقه‌مندی"}
-              disabled={!user}
-            >
-              <Heart
-                size={20}
-                strokeWidth={2.5}
-                fill={isInWishlist ? "white" : "none"}
-              />
-            </button>
-
-            <button
-              className="p-3 bg-white rounded-full shadow-xl hover:bg-gray-800 hover:text-white transition-all duration-300 transform hover:scale-110"
-              title="مشاهده سریع"
-            >
-              <Eye size={20} strokeWidth={2.5} />
-            </button>
-          </div>
         </div>
 
         <div className="p-4 text-center">
@@ -118,6 +70,48 @@ const Card = ({ product }) => {
           </p>
         </div>
       </Link>
+
+<div
+  className={`absolute top-12 left-2 flex flex-col gap-3 transition-all duration-500 z-20 pointer-events-auto ${
+    isHovered ? "translate-x-0 opacity-100" : "-translate-x-16 opacity-0"
+  }`}
+>
+  <button
+    onClick={handleAddToCart}
+    className={`p-3 rounded-full shadow-xl transition-all duration-300 transform hover:scale-110 flex items-center justify-center ${
+      isInCart
+        ? "bg-orange-500 text-white"
+        : "bg-white hover:bg-orange-500 hover:text-white"
+    }`}
+    title={isInCart ? "در سبد خرید است" : "افزودن به سبد خرید"}
+  >
+    <ShoppingCart size={20} strokeWidth={2.5} />
+  </button>
+
+  <button
+    onClick={handleToggleWishlist}
+    className={`p-3 rounded-full shadow-xl transition-all duration-300 transform hover:scale-110 flex items-center justify-center ${
+      isInWishlist
+        ? "bg-pink-500 text-white"
+        : "bg-white hover:bg-pink-500 hover:text-white"
+    }`}
+    title={isInWishlist ? "در علاقه‌مندی‌ها" : "افزودن به علاقه‌مندی"}
+  >
+    <Heart
+      size={20}
+      strokeWidth={2.5}
+      fill={isInWishlist ? "white" : "none"}
+    />
+  </button>
+
+  <Link
+    to={`/product/${product.slug}`}
+    className="p-3 bg-white rounded-full shadow-xl hover:bg-gray-800 hover:text-white transition-all duration-300 transform hover:scale-110 flex items-center justify-center"
+    title="مشاهده جزئیات محصول"
+  >
+    <Eye size={20} strokeWidth={2.5} />
+  </Link>
+</div>
     </div>
   );
 };

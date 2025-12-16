@@ -18,16 +18,17 @@ export default function BestSellersSlider() {
         const res = await fetch("http://localhost:1337/api/products?populate=image&pagination[limit]=20");
         const json = await res.json();
 
-        const formatted = json.data.map(item => ({
-          id: item.documentId,
-          title: item.title || "بدون عنوان",
-          price: item.price || 0,
-          category: item.Category === "girl" ? "دخترانه" :
-                   item.Category === "boy" ? "پسرانه" : "نامشخص",
-          image: item.image?.url
-            ? `http://localhost:1337${item.image.url}`
-            : "/images/photo-1.jpg",
-        }));
+const formatted = json.data.map(item => ({
+  id: item.documentId,                   
+  slug: item.slug || item.documentId,     
+  title: item.title || "بدون عنوان",
+  price: item.price || 0,
+  category: item.Category === "girl" ? "دخترانه" :
+           item.Category === "boy" ? "پسرانه" : "نامشخص",
+  image: item.image?.url
+    ? `http://localhost:1337${item.image.url}`
+    : "/images/photo-1.jpg",
+}));
 
         setProducts(formatted);
       } catch (err) {

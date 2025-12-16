@@ -13,6 +13,7 @@ import Dashboard from "./pages/User/Dashboard.jsx";
 import Footer from "./components/layout/Footer";
 import ProtectedRoute from "./utils/ProtectedRoute";
 
+import ProductDetail from "./pages/Product/ProductDetail.jsx";
 function Layout({ children }) {
   const location = useLocation();
   const hideFooterRoutes = ["/login", "/register"];
@@ -32,7 +33,8 @@ function App() {
       <Layout>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/shop" element={<Shop />} />        
+          <Route path="/shop" element={<Shop />} /> 
+          <Route path="/product/:slug" element={<ProductDetail />} />       
           <Route path="/rules" element={<Rules />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />

@@ -42,6 +42,9 @@
         "girl",
         "boy"
       ]
+    },
+    "description": {
+      "type": "text"
     }
   }
 }
